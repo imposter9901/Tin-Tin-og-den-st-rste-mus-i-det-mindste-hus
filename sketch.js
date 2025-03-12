@@ -1,7 +1,13 @@
+let DesertBackground;
+
+function preload() {
+  DesertBackground = loadImage("Billedere/DesertBackground.jpg")
+}
+
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
-  background(220);
+  image(DesertBackground, 0, 0, width, height);
 }
