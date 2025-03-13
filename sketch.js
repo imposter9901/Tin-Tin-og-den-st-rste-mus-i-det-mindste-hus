@@ -13,25 +13,47 @@ class Position {
 }
 
 class Move {
-  constructor(vel, x, y, width, height) {
+  constructor(vel, position, width, height) {
     this.vel = vel;
-    this.x = x;
-    this.y = y;
+    this.position = position;
     this.width = width;
     this.height = height;
+    this.isJump = false;
+    this.jumpCount = 10;
   }
 
   //Bevægelse
   move() {
     if (keyIsPressed) {
-      if (key === ' ') {
-        
+      if (key === 'd' && this.position.x < windowWidth - this.width) {
+        this.position.x += this.vel;
       }
-      if (key === 'd' && this.x < windowWidth - this.width) {
-        this.x + this.vel;
+      if (key === 'a' && this.position.x > 0) {
+        this.position.x -= this.vel;
       }
-      if (key === 'a' && this.x > 0) {
-        this.x - this.vel;
+
+      if (!this.isJump) {
+        if (key === ' ') {
+          this.isJump = true;
+        }
+      }
+
+      if (this.isJump) {
+        if (this.jumpCount > 0) {
+          this.position.y -= this.jumpCount * 1.5; //Hop op
+        }
+
+        else {
+          this.position.y += Math.abs(this.jumpCount) * 1.5 - 40; //Falder ned
+        }
+
+        this.jumpCount -= 1;
+
+        if (this.jumpCount < -10) {
+          this.isJump = false;
+          this.jumpCount = 10;
+        } 
+
       }
     }
   }
@@ -42,8 +64,8 @@ class Gravity {
     this.gravity = gravity;
   }
 
-  applyGravity(position) {
-    if (position.y < windowHeight - 40) {
+  applyGravity(position, isJump) {
+    if (!isJump && position.y < windowHeight - 40) {
       position.y += this.gravity;
     }
   }
@@ -57,7 +79,7 @@ let TinTin = {
   //Vi bruger classen position her under pos
   pos: new Position(100, 100),
   gravity: new Gravity(2),
-  move: new Move(20, this.pos.x, this.pos.y, 20, 40), // Use initial position values directly
+  move: null, //Midlertidigt null, vi sætter det senere
   
   //Tegner og farvelægger figuren
   paint: function () {
@@ -65,6 +87,9 @@ let TinTin = {
     rect(this.pos.x, this.pos.y, 20, 40);
   }
 };
+
+//Initialiser Move med referencen til TinTins position
+TinTin.move = new Move(5, TinTin.pos, 20, 40);
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -75,7 +100,7 @@ function draw() {
 
   //Bevæger og tegner TinTin
   
-  TinTin.gravity.applyGravity(TinTin.pos);
+  TinTin.gravity.applyGravity(TinTin.pos, TinTin.move.isJump);
   TinTin.move.move();
   TinTin.paint();
 }
