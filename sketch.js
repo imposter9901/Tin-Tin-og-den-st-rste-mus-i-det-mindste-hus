@@ -7,25 +7,8 @@ class Position {
     this.x = x;
     this.y = y;
   }
-
-  //Bevægelse
-  move() {
-    if (keyIsPressed) {
-      if (key === 'w') {
-        this.y --;
-      }
-      if (key === 's') {
-        this.y ++;
-      }
-      if (key === 'd') {
-        this.x ++;
-      }
-      if (key === 'a') {
-        this.x --;
-      }
-    }
-  }
 }
+
 
 //Denne class skal give blokke størrelser og farver
 class Blok {
@@ -37,13 +20,14 @@ class Blok {
   }
 
   paint() {
-    rect(this.pos.x, this.pos.y, this.w, this. h)
     fill(this.farve)
+    rect(this.pos.x, this.pos.y, this.w, this. h)
   }
 }
 
 //Liste af blokkene
 let blokke = []
+let mål = new Blok(300, 50, 20, 40, 'rgb(255, 0, 132)')
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -53,10 +37,29 @@ function setup() {
   blokke.push(new Blok(300, 200, 10, 40,'rgb(50, 70, 200)'))
 }
 
+
+let victoryBackground
+
+function preload() {
+  victoryBackground = loadImage("dupont-y-dupond.jpeg")
+}
+
 function draw() {
   background(220);
 
+  //forløkke der gør igennem blokke listen og kalder paint funktionen som tegner dem
   for(let i=0;i<blokke.length; i++){
     blokke[i].paint()
   }
+
+  mål.paint()
+
+  //sæt evt de to pos til x og y
+  if(player.pos == mål.pos){
+    image(victoryBackground, 0, 0, width, height);
+
+    textAlign(CENTER)
+    text('Tilykke du er den største lus',width/2, height/2)
+  }
+
 }
