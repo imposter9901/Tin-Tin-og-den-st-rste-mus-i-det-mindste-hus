@@ -25,9 +25,29 @@ class Blok {
   }
 }
 
+/*
+//Denne class skal lave knapper men jeg starter lige med 
+class Knap {
+  constructor(button,x,y,text) {
+    this.button = button
+    this.pos = new Position (x,y)
+    this.text = text
+  }
+  
+  paint() {
+    createButton(this.text)
+    button.Position(this.pos)
+    
+  }
+
+}
+  */
+
+
 //Liste af blokkene
 let blokke = []
 let mål = new Blok(300, 50, 20, 40, 'rgb(255, 0, 132)')
+let test = new Blok(300,40,30,50,'rgb(22, 184, 221)') //fjernes når player merges ind
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -52,14 +72,27 @@ function draw() {
     blokke[i].paint()
   }
 
+  //tegner målet
+  test.paint()
   mål.paint()
+  
 
-  //sæt evt de to pos til x og y
-  if(player.pos == mål.pos){
-    image(victoryBackground, 0, 0, width, height);
+  //undersøger om player er tæt på målet, hvis sandt så tegnes målskærmen
+    if(test.pos.x <= mål.pos.x+20 && test.pos.x >= mål.pos.x-20 && test.pos.y <= mål.pos.y+20 && test.pos.y >= mål.pos.y-20){ //test erstTTES AF PLAYER
+      //laver bagrunden
+      image(victoryBackground, 0, 0, width, height);
 
-    textAlign(CENTER)
-    text('Tilykke du er den største lus',width/2, height/2)
-  }
+      //skriver teksten
+      textAlign(CENTER)
+      textSize(75)
+      fill('rgb(86, 11, 246)')
+      text('TILLYKKE DU ER DEN STØRSTE LUS',width/2, height/2)
 
+      //lav en knap (få den til at du evt. som class)
+      let restartbtn = createButton('Tilbage til start')
+      restartbtn.pos(new Position(100,100))
+    }
 }
+
+
+//test.pos <= mål.pos+20 && test.pos >= mål.pos-20
