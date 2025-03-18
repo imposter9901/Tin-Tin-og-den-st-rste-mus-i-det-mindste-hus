@@ -70,7 +70,20 @@ class Move {
   }
 }
 
+//Denne class skal give blokke størrelser og farver
+class Blok {
+  constructor(x, y, w, h, farve) {
+    this.pos = new Position (x,y)
+    this. w = w
+    this. h = h
+    this. farve = farve
+  }
 
+  paint() {
+    rect(this.pos.x, this.pos.y, this.w, this. h)
+    fill(this.farve)
+  }
+}
 
 class Gravity {
   constructor(gravity) {
@@ -98,11 +111,17 @@ let TinTin = {
     fill(255, 0, 0);
     rect(this.move.position.x, this.move.position.y, 20, 40);
   }
-};
+}
 
+//Liste af blokkene
+let blokke = []
 
 function setup() {
-  createCanvas(windowWidth, windowHeight); 
+  createCanvas(windowWidth, windowHeight);
+
+  //blokkene kan skrives her og pushes så op i listen blokke
+  blokke.push(new Blok(90, 110, 10, 10, 'rgb(50,200,60)'))
+  blokke.push(new Blok(300, 200, 10, 40,'rgb(50, 70, 200)'))
 }
 
 function draw() {
@@ -111,4 +130,8 @@ function draw() {
   TinTin.move.move();
   TinTin.paint();
   TinTin.gravity.applyGravity(TinTin.move.position, TinTin.move.isJump);
+  
+  for(let i=0;i<blokke.length; i++){
+    blokke[i].paint()
+  }
 }
