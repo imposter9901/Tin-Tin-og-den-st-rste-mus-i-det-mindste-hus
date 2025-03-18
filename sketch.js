@@ -1,8 +1,3 @@
-/*
-Problemer: Der er problemer med spillerens position. Umeldbart er det på grund af at classen Move og classen position ikke kan snakke sammen.
-Når vi ændre på vores postition i move, så ændre det ikke på vores position i vores player da det ikke ændres i classen position.
-*/
-
 //Classes
 
 class Position {
@@ -34,11 +29,8 @@ class Move {
     if (!this.isJump) {
       if (keyIsDown(32) || keyIsDown(87) || keyIsDown(UP_ARROW)) { 
 
-        console.log("Jump");
-
         this.isJump = true;
 
-        console.log("isJump: " + this.isJump);
       }
     } 
     
@@ -46,24 +38,17 @@ class Move {
       if (this.jumpCount >= -10) {
         let neg = 1;
 
-        console.log("neg = 1");
-
         if (this.jumpCount < 0) {
           neg = -1;
 
-          console.log("neg = -1");
         }
 
         this.position.y -= (this.jumpCount ** 2) / 2 * neg;
         this.jumpCount--;
 
-        console.log("JumpCount: " + this.jumpCount);
-
       } else {
         this.isJump = false;
         this.jumpCount = 10;
-
-        console.log("jumpCount reset: " + this.jumpCount);
 
       }
     }
@@ -105,23 +90,37 @@ let TinTin = {
   //Vi bruger classen position her under pos
   gravity: new Gravity(2),
   move: new Move(5, new Position(100, 100), 20, 40, 10),
+  color: [255, 0, 0],
+  width: 20,
+  height: 40,
   
   //Tegner og farvelægger figuren
   paint: function () {
-    fill(255, 0, 0);
-    rect(this.move.position.x, this.move.position.y, 20, 40);
+    fill(this.color);
+    rect(this.move.position.x, this.move.position.y, this.width, this.height);
   }
 }
 
+//Functions
+function boxCollison(blok, player) {
+  
+  if(
+    blok.pos.x + blok.w >= player.move.position.x &&
+    blok.pos.x <= player.move.position.x + player.width &&
+    blok.pos.y + blok.h >= player.move.position.y &&
+    blok.pos.y <= player.move.position.y + player.height
+  )
+  return true
+}
+
 //Liste af blokkene
-let blokke = []
+let blokke = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
   //blokkene kan skrives her og pushes så op i listen blokke
-  blokke.push(new Blok(90, 110, 10, 10, 'rgb(50,200,60)'))
-  blokke.push(new Blok(300, 200, 10, 40,'rgb(50, 70, 200)'))
+  blokke.push(new Blok((windowWidth/2), (windowHeight - 10), 10, 10, 'rgb(255, 255, 0)'))
 }
 
 function draw() {
@@ -134,4 +133,13 @@ function draw() {
   for(let i=0;i<blokke.length; i++){
     blokke[i].paint()
   }
+
+  if (boxCollison(blokke[0], TinTin)){
+    Object.defineProperty(TinTin, "color", {value : [0, 255, 0]})
+  }
+
+  else {
+    Object.defineProperty(TinTin, "color", {value : [255, 0, 0]})
+  }
+
 }
