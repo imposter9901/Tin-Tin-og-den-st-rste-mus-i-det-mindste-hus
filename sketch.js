@@ -23,54 +23,53 @@ class Move {
   }
 
   //Bevægelse
-  move() {
-    if (keyIsPressed) {
-      if (key === 'd' && this.position.x < windowWidth - this.width - this.vel) {
-        this.position.x += this.vel;
+  move() {    
+    if ((keyIsDown(68) || keyIsDown(RIGHT_ARROW)) && this.position.x < windowWidth - this.width - this.vel) { // 68 is the key code for 'd'
+      this.position.x += this.vel;
+    }
+    if ((keyIsDown(65) || keyIsDown(LEFT_ARROW)) && this.position.x > 0) {
+      this.position.x -= this.vel;
+    }
+
+    if (!this.isJump) {
+      if (keyIsDown(32) || keyIsDown(87) || keyIsDown(UP_ARROW)) { 
+
+        console.log("Jump");
+
+        this.isJump = true;
+
+        console.log("isJump: " + this.isJump);
       }
-      if (key === 'a' && this.position.x > 0) {
-        this.position.x -= this.vel;
-      }
+    } 
+    
+    else {
+      if (this.jumpCount >= -10) {
+        let neg = 1;
 
-      if (!this.isJump) {
-        if (key === ' ') {
+        console.log("neg = 1");
 
-          console.log("Jump");
+        if (this.jumpCount < 0) {
+          neg = -1;
 
-          this.isJump = true;
-
-          console.log("isJump: " + this.isJump);
+          console.log("neg = -1");
         }
-      } 
-      
-      else {
-        if (this.jumpCount >= -10) {
-          let neg = 1;
 
-          console.log("neg = 1");
+        this.position.y -= (this.jumpCount ** 2) / 2 * neg;
+        this.jumpCount--;
 
-          if (this.jumpCount < 0) {
-            neg = -1;
+        console.log("JumpCount: " + this.jumpCount);
 
-            console.log("neg = -1");
-          }
+      } else {
+        this.isJump = false;
+        this.jumpCount = 10;
 
-          this.position.y -= (this.jumpCount ** 2) / 2 * neg;
-          this.jumpCount--;
+        console.log("jumpCount reset: " + this.jumpCount);
 
-          console.log("JumpCount: " + this.jumpCount);
-
-        } else {
-          this.isJump = false;
-          this.jumpCount = 10;
-
-          console.log("jumpCount reset: " + this.jumpCount);
-
-        }
       }
     }
   }
 }
+
 
 
 class Gravity {
@@ -91,21 +90,19 @@ let TinTin = {
   type: "player",
 
   //Vi bruger classen position her under pos
-  pos: new Position(100, 100),
   gravity: new Gravity(2),
-  move: null,
+  move: new Move(5, new Position(100, 100), 20, 40, 10),
   
   //Tegner og farvelægger figuren
   paint: function () {
     fill(255, 0, 0);
-    rect(this.pos.x, this.pos.y, 20, 40);
+    rect(this.move.position.x, this.move.position.y, 20, 40);
   }
 };
 
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  TinTin.move = new Move(5, this.pos, 20, 40, 10);
+  createCanvas(windowWidth, windowHeight); 
 }
 
 function draw() {
@@ -113,5 +110,5 @@ function draw() {
 
   TinTin.move.move();
   TinTin.paint();
-  TinTin.gravity.applyGravity(TinTin.pos, TinTin.move.isJump);
+  TinTin.gravity.applyGravity(TinTin.move.position, TinTin.move.isJump);
 }
