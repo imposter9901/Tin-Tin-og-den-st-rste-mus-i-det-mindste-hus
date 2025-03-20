@@ -113,14 +113,16 @@ function boxCollison(blok, player) {
   return true
 }
 
-//Liste af blokkene
+//Init variabler
 let blokke = [];
+let collisionDetected = false;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
   //blokkene kan skrives her og pushes så op i listen blokke
   blokke.push(new Blok((windowWidth/2), (windowHeight - 10), 10, 10, 'rgb(255, 255, 0)'))
+  blokke.push(new Blok((windowWidth/3), (windowHeight - 10), 10, 10, 'rgb(255, 255, 0)'))
 }
 
 function draw() {
@@ -130,16 +132,21 @@ function draw() {
   TinTin.paint();
   TinTin.gravity.applyGravity(TinTin.move.position, TinTin.move.isJump);
   
-  for(let i=0;i<blokke.length; i++){
+  for(let i = 0; i < blokke.length; i ++){
     blokke[i].paint()
   }
 
-  if (boxCollison(blokke[0], TinTin)){
-    Object.defineProperty(TinTin, "color", {value : [0, 255, 0]})
+
+
+
+  for (let i = 0; i < blokke.length; i ++) {
+    collisionDetected = boxCollison(blokke[i], TinTin);
+
+    if (collisionDetected) {
+      console.log("collison");
+    }
   }
 
-  else {
-    Object.defineProperty(TinTin, "color", {value : [255, 0, 0]})
-  }
+  
 
 }
