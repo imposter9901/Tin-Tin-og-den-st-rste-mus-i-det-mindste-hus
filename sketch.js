@@ -93,6 +93,3 @@ function draw() {
       restartbtn.pos(new Position(100,100))
     }
 }
-
-
-//test.pos <= mål.pos+20 && test.pos >= mål.pos-20
