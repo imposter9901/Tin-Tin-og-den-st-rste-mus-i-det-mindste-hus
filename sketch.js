@@ -165,9 +165,6 @@ function draw() {
     blokke[i].paint()
   }
 
-
-
-
   for (let i = 0; i < blokke.length; i ++) {
     collisionDetected = boxCollison(blokke[i], TinTin);
 
@@ -175,14 +172,10 @@ function draw() {
       console.log("collison");
     }
   }
-
-  
-
   }
 
   //tegner målet
   mål.paint()
-  
 
   //undersøger om player er tæt på målet, hvis sandt så tegnes målskærmen
     if(TinTin.move.position.x <= mål.pos.x+20 && TinTin.move.position.x >= mål.pos.x-20 && TinTin.move.position.y <= mål.pos.y+20 && TinTin.move.position.y >= mål.pos.y-20){ //test erstTTES AF PLAYER
