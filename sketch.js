@@ -25,24 +25,24 @@ class Blok {
   }
 }
 
-/*
-//Denne class skal lave knapper men jeg starter lige med 
-class Knap {
-  constructor(button,x,y,text) {
-    this.button = button
-    this.pos = new Position (x,y)
-    this.text = text
-  }
+//Functions
+function slutskærm (){
+  //laver bagrunden
+  image(victoryBackground, 0, 0, width, height);
+
+  //skriver teksten
+  textAlign(CENTER);
+  textSize(75);
+  fill('rgb(86, 11, 246)');
+  text('TILLYKKE DU ER DEN STØRSTE LUS',width/2, height/2);
+
+  let restartButton = createButton('Genstart Spillet');
+  restartButton.position(width/2-100, height/2+50);
+  restartButton.size(200, 50);
   
-  paint() {
-    createButton(this.text)
-    button.Position(this.pos)
-    
-  }
-
+  //funktion der genstarter spillet
+  restartButton.mousePressed(restartGame);
 }
-  */
-
 
 //Liste af blokkene
 let blokke = []
@@ -79,17 +79,6 @@ function draw() {
 
   //undersøger om player er tæt på målet, hvis sandt så tegnes målskærmen
     if(test.pos.x <= mål.pos.x+20 && test.pos.x >= mål.pos.x-20 && test.pos.y <= mål.pos.y+20 && test.pos.y >= mål.pos.y-20){ //test erstTTES AF PLAYER
-      //laver bagrunden
-      image(victoryBackground, 0, 0, width, height);
-
-      //skriver teksten
-      textAlign(CENTER)
-      textSize(75)
-      fill('rgb(86, 11, 246)')
-      text('TILLYKKE DU ER DEN STØRSTE LUS',width/2, height/2)
-
-      //lav en knap (få den til at du evt. som class)
-      let restartbtn = createButton('Tilbage til start')
-      restartbtn.pos(new Position(100,100))
+      slutskærm()
     }
 }
