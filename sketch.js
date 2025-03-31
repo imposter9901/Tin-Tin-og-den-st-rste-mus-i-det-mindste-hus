@@ -135,7 +135,7 @@ function boxCollison(blok, player) {
 //Init variabler
 let blokke = [];
 let collisionDetected = false;
-let mål = new Blok(300, 50, 20, 40, 'rgb(255, 0, 132)')
+let mål = new Blok(300, 500, 20, 40, 'rgb(255, 0, 132)')
 let test = new Blok(300,40,30,50,'rgb(22, 184, 221)') //fjernes når player merges ind
 
 function setup() {
@@ -145,14 +145,6 @@ function setup() {
   blokke.push(new Blok((windowWidth/2), (windowHeight - 10), 10, 10, 'rgb(255, 255, 0)'))
   blokke.push(new Blok((windowWidth/3), (windowHeight - 10), 10, 10, 'rgb(255, 255, 0)'))
 }
-
-
-let victoryBackground
-
-function preload() {
-  victoryBackground = loadImage("dupont-y-dupond.jpeg")
-}
-
 
 let victoryBackground
 
@@ -189,12 +181,11 @@ function draw() {
   }
 
   //tegner målet
-  test.paint()
   mål.paint()
   
 
   //undersøger om player er tæt på målet, hvis sandt så tegnes målskærmen
-    if(test.pos.x <= mål.pos.x+20 && test.pos.x >= mål.pos.x-20 && test.pos.y <= mål.pos.y+20 && test.pos.y >= mål.pos.y-20){ //test erstTTES AF PLAYER
+    if(TinTin.move.position.x <= mål.pos.x+20 && TinTin.move.position.x >= mål.pos.x-20 && TinTin.move.position.y <= mål.pos.y+20 && TinTin.move.position.y >= mål.pos.y-20){ //test erstTTES AF PLAYER
       slutskærm()
     }
 }
