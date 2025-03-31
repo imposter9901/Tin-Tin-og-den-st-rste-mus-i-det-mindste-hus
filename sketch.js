@@ -74,6 +74,7 @@ class Blok {
 
   paint() {
     fill(this.farve)
+    fill(this.farve)
     rect(this.pos.x, this.pos.y, this.w, this. h)
   }
 }
