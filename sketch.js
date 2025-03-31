@@ -1,7 +1,9 @@
 let DesertBackground;
+let victoryBackground;
 
 function preload() {
-  DesertBackground = loadImage("Billedere/DesertBackground.jpg")
+  DesertBackground = loadImage("Billedere/DesertBackground.jpg");
+  victoryBackground = loadImage("dupont-y-dupond.jpeg");
 }
 
 //Classes
@@ -139,23 +141,22 @@ function boxCollison(blok, player) {
 }
 
 //Init variabler
-let blokke = [];
-let collisionDetected = false;
-let mål = new Blok(300, 500, 20, 40, 'rgb(255, 0, 132)')
-let test = new Blok(300,40,30,50,'rgb(22, 184, 221)') //fjernes når player merges ind
+let blokke;
+let collisionDetected;
+let mål;
+let test;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
+blokke = [];
+collisionDetected = false;
+mål = new Blok(300, (windowHeight-40), 20, 40, 'rgb(255, 0, 132)')
+test = new Blok(300,40,30,50,'rgb(22, 184, 221)') //fjernes når player merges ind
+
   //blokkene kan skrives her og pushes så op i listen blokke
   blokke.push(new Blok((windowWidth/2), (windowHeight - 10), 10, 10, 'rgb(255, 255, 0)'))
   blokke.push(new Blok((windowWidth/3), (windowHeight - 10), 10, 10, 'rgb(255, 255, 0)'))
-}
-
-let victoryBackground
-
-function preload() {
-  victoryBackground = loadImage("dupont-y-dupond.jpeg")
 }
 
 function draw() {
