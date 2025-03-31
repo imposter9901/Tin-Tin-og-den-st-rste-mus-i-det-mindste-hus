@@ -1,3 +1,9 @@
+let DesertBackground;
+
+function preload() {
+  DesertBackground = loadImage("Billedere/DesertBackground.jpg")
+}
+
 //Classes
 
 class Position {
@@ -153,7 +159,7 @@ function preload() {
 }
 
 function draw() {
-  background(220);
+  image(DesertBackground, 0, 0, width, height);
 
   TinTin.move.move();
   TinTin.paint();
