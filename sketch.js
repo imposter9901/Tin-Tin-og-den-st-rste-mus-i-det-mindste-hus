@@ -1,6 +1,13 @@
 let DesertBackground;
 let victoryBackground;
 
+//Screen width and height
+let screenWidth = 1500;
+let screenHeight = 650;
+
+//Button initialize
+let restartButton;
+
 function preload() {
   DesertBackground = loadImage("Billedere/DesertBackground.jpg");
   victoryBackground = loadImage("dupont-y-dupond.jpeg");
@@ -90,13 +97,33 @@ function slutskærm (){
   fill('rgb(86, 11, 246)');
   text('TILLYKKE DU ER DEN STØRSTE LUS',width/2, height/2);
 
-  let restartButton = createButton('Genstart Spillet');
+  restartButton = createButton('Genstart Spillet');
   restartButton.position(width/2-100, height/2+50);
   restartButton.size(200, 50);
   
-  //funktion der genstarter spillet
-  restartButton.mousePressed(restartGame);
+  //Restart when restart button is pressed
+  restartButton.mousePressed(() => {
+    
+    TinTin.move.position.x = 20;
+    TinTin.move.position.y = screenHeight - 40
+
+    remove();
+    restartButton = null;
+  });
+  
 }
+
+function boxCollison(blok, player) {
+  
+  if(
+    blok.pos.x + blok.w >= player.move.position.x &&
+    blok.pos.x <= player.move.position.x + player.width &&
+    blok.pos.y + blok.h >= player.move.position.y &&
+    blok.pos.y <= player.move.position.y + player.height
+  )
+  return true
+}
+
 
 class Gravity {
   constructor(gravity) {
@@ -104,7 +131,7 @@ class Gravity {
   }
 
   applyGravity(position, isJump) {
-    if (!isJump && position.y < windowHeight - 40) {
+    if (!isJump && position.y < screenHeight - 40) {
       position.y += this.gravity;
     }
   }
@@ -117,7 +144,7 @@ let TinTin = {
 
   //Vi bruger classen position her under pos
   gravity: new Gravity(2),
-  move: new Move(5, new Position(100, 100), 20, 40, 10),
+  move: new Move(5, new Position(20, screenHeight - 40), 20, 40, 10),
   color: [255, 0, 0],
   width: 20,
   height: 40,
@@ -129,18 +156,6 @@ let TinTin = {
   }
 }
 
-//Functions
-function boxCollison(blok, player) {
-  
-  if(
-    blok.pos.x + blok.w >= player.move.position.x &&
-    blok.pos.x <= player.move.position.x + player.width &&
-    blok.pos.y + blok.h >= player.move.position.y &&
-    blok.pos.y <= player.move.position.y + player.height
-  )
-  return true
-}
-
 //Init variabler
 let blokke;
 let collisionDetected;
@@ -148,11 +163,11 @@ let mål;
 let test;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(screenWidth, screenHeight);
 
 blokke = [];
 collisionDetected = false;
-mål = new Blok(300, (windowHeight-40), 20, 40, 'rgb(255, 0, 132)')
+mål = new Blok(300, (screenHeight-40), 20, 40, 'rgb(255, 0, 132)')
 test = new Blok(300,40,30,50,'rgb(22, 184, 221)') //fjernes når player merges ind
 
   //blokkene kan skrives her og pushes så op i listen blokke
