@@ -1,6 +1,8 @@
 let DesertBackground;
 let victoryBackground;
 
+let isGameOver = false;
+
 //Screen width and height
 let screenWidth = 1500;
 let screenHeight = 650;
@@ -107,8 +109,8 @@ function slutskærm (){
     TinTin.move.position.x = 20;
     TinTin.move.position.y = screenHeight - 40
 
-    remove();
-    restartButton = null;
+    restartButton.remove()
+    isGameOver = false;
   });
   
 }
@@ -176,32 +178,39 @@ test = new Blok(300,40,30,50,'rgb(22, 184, 221)') //fjernes når player merges i
 }
 
 function draw() {
-  image(DesertBackground, 0, 0, width, height);
-
-  TinTin.move.move();
-  TinTin.paint();
-  TinTin.gravity.applyGravity(TinTin.move.position, TinTin.move.isJump);
   
-  for(let i = 0; i < blokke.length; i ++){
-  //forløkke der gør igennem blokke listen og kalder paint funktionen som tegner dem
-  for(let i=0;i<blokke.length; i++){
-    blokke[i].paint()
-  }
+  // Hvis ikke denne if function er her vil spillet blive ved i baggrunden og skabe problemer
+  if (!isGameOver) {
+  
+    image(DesertBackground, 0, 0, width, height);
 
-  for (let i = 0; i < blokke.length; i ++) {
-    collisionDetected = boxCollison(blokke[i], TinTin);
-
-    if (collisionDetected) {
-      console.log("collison");
+    TinTin.move.move();
+    TinTin.paint();
+    TinTin.gravity.applyGravity(TinTin.move.position, TinTin.move.isJump);
+    
+    for(let i = 0; i < blokke.length; i ++){
+    //forløkke der gør igennem blokke listen og kalder paint funktionen som tegner dem
+    for(let i=0;i<blokke.length; i++){
+      blokke[i].paint()
     }
-  }
-  }
 
-  //tegner målet
-  mål.paint()
+    for (let i = 0; i < blokke.length; i ++) {
+      collisionDetected = boxCollison(blokke[i], TinTin);
 
-  //undersøger om player er tæt på målet, hvis sandt så tegnes målskærmen
-    if(TinTin.move.position.x <= mål.pos.x+20 && TinTin.move.position.x >= mål.pos.x-20 && TinTin.move.position.y <= mål.pos.y+20 && TinTin.move.position.y >= mål.pos.y-20){ //test erstTTES AF PLAYER
-      slutskærm()
+      if (collisionDetected) {
+        console.log("collison");
+      }
     }
+    }
+
+    //tegner målet
+    mål.paint();
+
+    //undersøger om player er tæt på målet, hvis sandt så tegnes målskærmen
+      if(TinTin.move.position.x <= mål.pos.x+20 && TinTin.move.position.x >= mål.pos.x-20 && TinTin.move.position.y <= mål.pos.y+20 && TinTin.move.position.y >= mål.pos.y-20){ //test erstTTES AF PLAYER
+        
+        isGameOver = true;
+        slutskærm();
+      }
+  }
 }
