@@ -25,8 +25,7 @@ Dette er et platformspil, hvor spilleren styrer karakteren Tin-Tin gennem en ræ
 │   ├── door.png
 │   └── Allan.webp
 └── [README.md](http://_vscodecontentref_/2)          # Dokumentation for projektet
-
-´´´
+```
 
 ## Inspiration
 
