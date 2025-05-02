@@ -26,6 +26,8 @@ Dette er et platformspil, hvor spilleren styrer karakteren Tin-Tin gennem en ræ
 │   └── Allan.webp
 └── [README.md](http://_vscodecontentref_/2)          # Dokumentation for projektet
 
+´´´
+
 ## Inspiration
 
 ![alt text](https://media.tenor.com/7jYM0M1lXSEAAAAM/the-adventures-of-tintin-nodding.gif)
